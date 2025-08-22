@@ -12,8 +12,10 @@
 .DOCHEADER OFF
 .HEADER OFF
 .HY OFF
-.TAB_SET 1 0 0P R
-.TAB_SET 2 0 14.08c R
+.TAB_SET 1 0i 0c R
+.TAB_SET 2 0i 14.08c R
+.TAB_SET 3 0c 7.04c L
+.TAB_SET 4 7.04c 7.04c L
 .HEADING_STYLE 1 SIZE +8 FONT R SMALLCAPS
 .HEADING_STYLE 2 SIZE +0
 .START
@@ -77,26 +79,41 @@ were repeated for values of $R sub g$ as $500 Omega$, $1 roman k Omega$, $2 roma
 k Omega$, $10 roman k Omega$, $20 roman k Omega$, and $50 roman k Omega$. The gain of the amplifier
 was calculated using the formula
 .EQ
-A sub v = {V sub out} over {V sub in}
+A sub v = {V sub out} over {V sub -}
+.EN
+while the expected gain was calculated using the resistor values:
+.EQ
+A sub v = 1 + {R sub f} over {R sub g}
 .EN
 .HEADING 2 "Results"
 .TS H BOXED CENTER
 tab(,) allbox center;
-rrrr.
-Rg (k$Omega$),$V sub out$ (V),$V sub -$ (V),$A sub v$
+rrrrr.
+Rg (k$Omega$),$V sub out$ (V),$V sub -$ (V),Measured gain,Expected gain $A sub v$
 .TH
-0.5,1.4,0.27,3.57
-1,1.68,0.53,2.98
-2,2.17,1.06,2.30
-5,3.64,2.56,1.37
-10,3.86,3.15,1.30
-20,3.91,3.49,1.28
-50,3.96,3.74,1.26
+0.5,1.4,0.27,5.19,5.40
+1,1.68,0.53,3.17,3.20
+2,2.17,1.06,2.05,2.10
+5,3.64,2.56,1.42,1.44
+10,3.86,3.15,1.23,1.22
+20,3.91,3.49,1.12,1.11
+50,3.96,3.74,1.06,1.04
 .TE
 .PDF_IMAGE -C graph1.pdf 576p 432p SCALE 65
 .NEWPAGE
 .HEADING 2 "Discussion"
-
+.PP
+As the resistance of $R sub g$ increased, the gain approached 1. This is expected, as the gain
+equation in terms of the resistors is ${R sub f} over {R sub g} + 1$, so as $R sub g$ approaches
+infinity the gain goes to 1. With a gain of 1, the output voltage should match the input voltage
+of 5 V. However, this was not the case in the measurements, which saturated at 4 V. I believe the
+supply voltage $V sub cc$ was incorrectly set to 5 V for this part, as a maximum output of $V sub
+cc - 1$ V is seen in the subsequent experiments, which use a correct $V sub cc$ of 12 V. Regardless,
+the measurements taken are consistent and still demonstrate the desired behaviour. The measured gain
+followed the expected gain, with the highest margin of error being 3.89%, and averaging  1.75%. The
+small discrepancies between the measured and expected gain could be due to a lack of offset nulling
+on the op amp, and small tolerance differences in the components used.
+.NEWPAGE
 .HEADING 1 "Part 3"
 .HEADING 2 "Circuit Diagram"
 .PDF_IMAGE -C amp3.pdf 881p 406p SCALE 40
@@ -104,38 +121,59 @@ Rg (k$Omega$),$V sub out$ (V),$V sub -$ (V),$A sub v$
 .PP
 The circuit was assembled as shown above. The input voltage of the circuit set to 50 mV DC.
 The value of $R sub g$ was varied until the value of $V sub out = 5$ V, so that the gain of the
-amplifier was 40 dB. A range of measurements were taken for $V sub in$ and $V sub out$, showing
-the linear and saturation regions of the amp.
+amplifier was 40 dB. This gain saturated too quickly, so a reduced gain of roughly 35 dB was chosen
+instead. A range of measurements were taken for $V sub in$ and $V sub out$ to show the linear and
+saturation regions of the amp.
 .HEADING 2 "Data"
+.MCO
+.TAB3
 .TS H BOXED CENTER
 tab(,) allbox center;
-rr.
-$V sub in$ (V),$V sub out$ (V),
+rrr.
+$V sub in$ (V),$V sub out$ (V),Gain (dB)
 .TH
-0.05,2.84,
-0.06,3.33,
-0.07,3.92,
-0.08,4.42,
-0.09,4.88,
-0.1,5.39,
-0.11,5.96,
-0.12,6.46,
-0.13,7.06,
-0.14,7.56,
-0.15,8.08,
-0.16,8.58,
-0.17,9.04,
-0.18,9.54,
-0.19,10.1,
-0.2,10.65,
-0.21,10.96,
-0.22,10.96,
-0.23,10.96,
-0.24,10.96,
+0.05,2.84,35.09
+0.06,3.33,34.89
+0.07,3.92,34.96
+0.08,4.42,34.85
+0.09,4.88,34.68
+0.1,5.39,34.63
+0.11,5.96,34.68
+0.12,6.46,34.62
+0.13,7.06,34.70
+0.14,7.56,34.65
 .TE
+.MCR
+.TAB4
+.TS H BOXED CENTER
+tab(,) allbox center;
+rrr.
+$V sub in$ (V),$V sub out$ (V),Gain (dB)
+.TH
+0.15,8.08,34.63
+0.16,8.58,34.59
+0.17,9.04,34.51
+0.18,9.54,34.49
+0.19,10.1,34.51
+0.2,10.65,34.53
+0.21,10.96,34.35
+0.22,10.96,33.95
+0.23,10.96,33.56
+0.24,10.96,33.19
+.TE
+.MCX
+.NEWPAGE
+.PDF_IMAGE -C graph2.pdf 576p 432p SCALE 65
+.HEADING 2 "Discussion"
+.PP
+The results are as expected. The produced graph clearly shows the op amps positive linear region,
+followed by saturation around $V sub i > 0.2$. The measured gain drops slightly as the output
+approaches saturation, which is likely due to the op amp's inability to deliver a linear output as
+it approaches it's supply voltage.
+.NEWPAGE
 .HEADING 1 "Part 4"
 .HEADING 2 "Circuit Diagram"
-.PDF_IMAGE -C amp3.pdf 813p 633p SCALE 30
+.PDF_IMAGE -C amp3.pdf 881p 406p SCALE 30
 .HEADING 2 "Method"
 The circuit was assembled as in part 3, but with a 10 k$Omega$ potentiometer across the "offset
 null" pins of the amp, and the middle pin of the amp connected to $V sub {cc-}$. While the input
@@ -143,6 +181,8 @@ voltage was zero, the potentiometer was adjusted until $V sub out$ was measured 
 in$ was then set to 50 mV and and measurements were taken for $V sub in$ and $V sub out$, as in part
 3.
 .HEADING 2 "Data"
+.MCO
+.TAB3
 .TS H BOXED CENTER
 tab(,) allbox center;
 rr.
@@ -158,6 +198,14 @@ $V sub in$ (V),$V sub out$ (V),
 0.12,7,
 0.13,7.75,
 0.14,8.35,
+.TE
+.MCR
+.TAB4
+.TS H BOXED CENTER
+tab(,) allbox center;
+rr.
+$V sub in$ (V),$V sub out$ (V),
+.TH
 0.15,9,
 0.16,9.58,
 0.17,9.96,
@@ -169,6 +217,14 @@ $V sub in$ (V),$V sub out$ (V),
 0.23,10.95,
 0.24,10.95,
 .TE
+.MCX
+.PDF_IMAGE -C graph3.pdf 576p 432p SCALE 65
+.NEWPAGE
+.HEADING 2 "Discussion"
+.PP
+The result is similar to part 3 with the same graph but slightly offset on the Y axis. We did not
+take any measurements at $V sub i <= 0$, but we would expect to see the line of the linear region
+intersect the point (0, 0), and we would not expect to see this for the graph in part 3.
 .HEADING 1 "Part 5"
 .HEADING 2 "Method"
 .PP
@@ -177,6 +233,7 @@ generating a sine wave. $V sub in$ was set to 50 mV. For a range of values betwe
 kHz, measurements were taken for $V sub out$ and $A sub v$ (the gain) of the circuit. The bandwidth
 of the amp was then determined for each measurement. This was then all repeated with the gain of the
 amplifier set to 10dB.
+.NEWPAGE
 .HEADING 2 "Data"
 .TS H BOXED CENTER CAPTION "100dB"
 tab(,) allbox center;
@@ -212,195 +269,37 @@ f (Hz),$V sub o$ (V),$A sub v$ (dB),Bandwidth
 50000.00,0.48,9.60,104166.67
 100000.00,0.39,7.80,128205.13
 .TE
-
-\"".HEADING 1 "Potentiometers"
-\"".HEADING 2 "Aim"
-\"".PP
-\"To investigate the response of an RC circuit to changes in voltage, using a potentiometer as variable resistor.
-\"".HEADING 2 "Theory"
-\"The discharge rate for a capacitor is goverened by $tau = RC$, where R is the total resistance of
-\"the circuit. When an AC signal is applied, the circuit acts as a voltage divider whose behaviour is
-\"dependent on freqency. The cutoff frequency at which the output voltage is 70% (-3dB) of the input voltage
-\"is defined as $F sub c = 1 over { 2 pi RC }$
-\"".HEADING 2 "Circuit Diagram"
-\"".PDF_IMAGE -C diag.pdf 1043p 407p SCALE 30
-\"".HEADING 2 "Method"
-\"".PP
-\"The circuit was assembled on the breadboard according to the circuit diagram above. The initial
-\"frequency for the AC source was set to be 2kHz. An oscilloscope had it's probes connected to measure
-\"the voltages across the potentiometer (Vp) and the capacitor (Vc.) Voltage readings were taken
-\"for the potentiometer at 0%, 20%, 40%, 60%, 80%, and 100%. Readings were then taken in the same way
-\"for source frequencies of 5kHz, 10kHz, 20kHz, 50kHz, and 100kHz.
-\"".NEWPAGE
-\"".HEADING 2 "Results"
-\"".TS H BOXED CENTER CAPTION "Lab: $V sub p$"
-\"tab(,) allbox center;
-\"rrrrrrr.
-\"",2kHz,50kHz,10kHz,20kHz,50kHz,100kHz
-\"".TH
-\"0%,0.08,0.040,0.04,0.04,0.04,0.04
-\"20%,1.44,1.500,1.24,1.48,1.38,1.50
-\"40%,2.04,2.280,2.18,2.24,2.28,2.26
-\"60%,2.88,2.920,2.72,2.80,2.76,2.84
-\"80%,3.20,3.200,3.14,3.20,3.18,3.20
-\"100%,3.36,3.400,3.40,3.40,3.40,3.40
-\"".TE
-\"".TS H BOXED CENTER CAPTION "Lab: $V sub c$"
-\"tab(,) allbox center;
-\"rrrrrrr.
-\"",2kHz,50kHz,10kHz,20kHz,50kHz,100kHz
-\"".TH
-\"0%,3.12,2.020,1.38,0.81,0.33,0.17
-\"20%,2.54,1.700,1.10,0.61,0.24,0.13
-\"40%,1.88,1.320,0.84,0.46,0.19,0.10
-\"60%,1.14,1.000,0.68,0.32,0.16,0.08
-\"80%,0.28,0.560,0.46,0.24,0.13,0.08
-\"100%,0.06,0.060,0.04,0.04,0.03,0.02
-\"".TE
-\"".TS H BOXED CENTER CAPTION "Multisim: $V sub p$"
-\"tab(,) allbox center;
-\"rrrrrrr.
-\"",2kHz,50kHz,10kHz,20kHz,50kHz,100kHz
-\"".TH
-\"0%,0.00,0.000,0.00,0.00,0.00,0.00
-\"20%,0.91,1.287,1.39,1.42,1.43,1.43
-\"40%,1.62,2.073,2.18,2.21,2.22,2.22
-\"60%,2.16,2.604,2.68,2.72,2.73,2.72
-\"80%,2.58,2.978,3.04,3.07,3.07,3.07
-\"100%,2.90,3.251,3.31,3.33,3.33,3.33
-\"".TE
-\"".NEWPAGE
-\"".TS H BOXED CENTER CAPTION "Multisim: $V sub c$"
-\"tab(,) allbox center;
-\"rrrrrrr.
-\"",2kHz,50kHz,10kHz,20kHz,50kHz,100kHz
-\"".TH
-\"0%,4.30,2.794,1.59,0.83,0.34,0.17
-\"20%,3.85,2.172,1.17,0.60,0.24,0.12
-\"40%,3.41,1.749,0.92,0.47,0.19,0.09
-\"60%,3.04,1.465,0.75,0.38,0.15,0.08
-\"80%,2.72,1.256,0.64,0.32,0.13,0.06
-\"100%,2.45,1.097,0.56,0.28,0.11,0.06
-\"".TE
-
-\".HEADING 2 "Aim"
-\".PP
-\"To investigate the total resistance of a circuit when resistors are placed in series vs. in
-\"parallel.
-\".HEADING 2 "Theory"
-\".PP
-\"Ohm's Law states that the resistance of a circuit, R, is given by the equation $R = V smallover I$,
-\"where:
-\".LEFT
-\".IL 6n
-\"V = potential difference across the resistor (V)
-\"I = current through the resistor (A)
-\"R = resistance of resistor to current flow ($OMEGA$)
-\".IL -33p
-\"
-\".PP
-\"For resistors in series, the total resistance of the circuit, $R sub T$, can be obtained through
-\"the equation
-\".EQ
-\"R sub T ~~=~~ R sub 1 ~+~ R sub 2 ~+~ R sub 3 ~+~ ~...
-\".EN
-\".PP
-\"where $R sub n$ is the resistance of the $n sup th$ resistor.
-\"
-\".PP
-\"For resistors in parallel, the total resistance of the circuit, $R sub T$, is defined as
-\".EQ
-\"1 over {R sub T} ~~=~~ 1 over {R sub 1} ~+~ 1 over {R sub 2} ~+~ 1 over {R sub 3} ~+~ ~...
-\".EN
-\".PP
-\"where $R sub n$ is the resistance of the $n sup th$ resistor.
-\"
-\".PP
-\"Given resistors with known resistances, these equations can be used to verify Ohm's Law.
-\".HEADING 2 "Diagram"
-\".HEADING 2 "Method"
-\".PP
-\"The power supply was made sure to be off. The first circuit was put together using banana
-\"connectors, with the two resistors in series. Two multimetres were used in the circuit, with one
-\"connected in series measuring current and another connected in parallel measuring voltage. The
-\"circuit was made sure to be correct and the power supply was switched on. The power supply voltage
-\"was set to 0.5 V and measurements of current and voltage were taken for each increment of 0.5 V up
-\"to 5 V. Ohm's law was then used to calculate the resistance of the circuit. The same steps were
-\"repeated for the second circuit, with the resistors placed in parallel.
-\".HEADING 2 "Data"
-\".TS H BOXED CENTER CAPTION "Resistors in series. Expected resistance: 520 $OMEGA$"
-\"tab(,) allbox center;
-\"nnnn.
-\"PSU Voltage (V),Measured Voltage (V),Current (A),Resistance ($OMEGA$)
-\".TH
-\"0.50,0.48,0.00094,510.64
-\"1.00,0.97,0.00188,515.96
-\"1.50,1.46,0.00282,517.73
-\"2.00,1.95,0.00376,518.62
-\"2.50,2.44,0.00470,519.15
-\"3.00,2.93,0.00564,519.50
-\"3.50,3.42,0.00659,518.97
-\"4.00,3.91,0.00752,519.95
-\"4.50,4.40,0.00847,519.48
-\"5.00,4.89,0.00941,519.66
-\".TE
-\".TS H BOXED CENTER CAPTION "Resistors in parallel. Expected resistance: 126.92 $OMEGA$"
-\"tab(,) allbox center;
-\"nnnn.
-\"PSU Voltage (V),Measured Voltage (V),Current (A),Resistance ($OMEGA$)
-\".TH
-\"0.50,0.45,0.00364,123.63
-\"1.00,0.91,0.00725,125.52
-\"1.50,1.37,0.01087,126.03
-\"2.00,1.83,0.01449,126.29
-\"2.50,2.29,0.01810,126.52
-\"3.00,2.94,0.02300,127.83
-\"3.50,3.43,0.02690,127.51
-\"4.00,3.92,0.03070,127.69
-\"4.50,4.41,0.03460,127.46
-\"5.00,4.91,0.03840,127.86
-\".TE
-\".PSPIC graph1.eps 8.25i-6.92c 3.8125i
-\".PSPIC graph2.eps 8.25i-6.92c 3.8125i
-\".NEWPAGE
-\".HEADING 2 "Result"
-\".PP
-\"The equation of a line is defined as $y = m x + c$. Ohm's law states that $R = V smallover I$,
-\"which can be rearranged as $V = R I$. This takes the form of $y = m x$ (where c is 0 because
-\"current, voltage and resistance are proportional to each other). As such, a line graphed with
-\"voltage (V) on the Y axis and current (I) on the X axis will have a slope equal to the resistance
-\"R.
-\"
-\".PP
-\"The resistance obtained from the line can be compared against the expected resistances obtained
-\"through the equations $R sub T = R sub 1 + R sub 2 + R sub 3 + ...$ for resistors in series, and
-\"$1 smallover {R sub T} = 1 smallover {R sub 1} + 1 smallover {R sub 2}$ for resistors in parallel.
-\"
-\".PP
-\"Using a 300 $OMEGA$ and a 220
-\"$OMEGA$ resistor gave expected resistances of:
-\".EQ C
-\"300 ~+~ 220 ~~=~~ 520~mark OMEGA roman{"  for the series circuit"}
-\".EN
-\".sp -0.2i
-\".EQ
-\"1 ~~/~~ {( 1 smallover 300 ~~+~~ 1 smallover 220 )} ~~=~~ 126.92~lineup OMEGA
-\"roman{"  for the parallel circuit"}
-\".EN
-\"The resistances measured were 520.64 $OMEGA$ and 128.33 $OMEGA$
-\"respectively, giving percentage variations of 0.1% $( {520.64 - 520} smallover 520 times 100% )$
-\"and 1.1% $( {128.33 - 126.92} smallover 126.92 times 100% )$. 
-\".HEADING 2 "Discussion"
-\".PP
-\"The aim of the experiment was fully attained. The expected resistances calculated with the
-\"equations $R sub T = R sub 1 + R sub 2$ and $1 smallover {R sub T} = 1 smallover {R sub 1} +
-\"1 smallover {R sub 2}$ matched almost exactly the resistances calculated via Ohm's Law.
-\"The graphed lines indicate a proportional relationship between voltage, current and resistance.
-\"The resistances were measured to a very high degree of accuracy, and as such I can't suggest any
-\"possible sources of error or improvements.
-\".HEADING 2 "Conclusion"
-\".PP
-\"The total resistance of resistors in series is defined as $R sub T = R sub 1 + R sub 2$, and the
-\"total resistance of resistors in parallel is defined as $1 smallover {R sub T} = 1 smallover
-\"{R sub 1} + 1 smallover {R sub 2}$. My final results were 520.64 $OMEGA$ and 128.33 $OMEGA$, with
-\"percentage variations of 0.1% and 1.1%.
+.PDF_IMAGE -C graph4.pdf 576p 432p SCALE 65
+.PDF_IMAGE -C graph5.pdf 576p 432p SCALE 65
+.NEWPAGE
+.HEADING 2 "Discussion"
+The maximum gain of an op amp decreases as the frequency increases. This is reproduced in the above
+graphs. The 100dB circuit shows a large dropoff in gain almost immediately, as the maximum gain
+falls below 100dB at a relatively low frequency. The 10dB circuit is able to maintain it's gain at
+much higher frequencies due to it being much lower than 100dB.
+.HEADING 1 "Part 6"
+.HEADING 2 "Method"
+.PP
+A 40dB gain amplifier circuit was constructed in Multisim. The op amp parameters set $A sub vol = 10
+roman k$, $BW = 1 roman MHz$, $R sub I = 10 roman M Omega$, and $R sub O = 100 Omega$. $V sub cc+$
+and $V sub cc-$ were set to 12V and -12V respectively. An AC sweep was used to generate a graph of
+frequency vs gain. This was repeated for a circuit with a 10dB gain.
+.HEADING 2 "Data"
+.PDF_IMAGE -C graph6.pdf 576p 432p SCALE 65
+.PDF_IMAGE -C graph7.pdf 576p 432p SCALE 65
+.NEWPAGE
+.HEADING 2 "Discussion"
+.PP
+The graphs from Multisim closely resemble the graphs produced in part 5, albeit with many more
+data points. The 10dB graph matches almost exactly to the 10dB graph in part 5. The 100dB graph
+rolls off a bit slower than in part 5, following more of a smoother curve.
+.HEADING 1 "Conclusion"
+The experiments successfully demonstrated the fundamental characteristics and behavior of
+operational amplifiers. The experiments confirmed that applying negative feedback allows for
+stable and predictable circuit behavior. Slight discrepancies in measurements were attributed to
+factors like a lack of offset nulling (for part 3) and component tolerances. The voltage transfer
+characteristic experiments clearly showed the op amp's linear operating region and subsequent
+saturation as the output approached the supply voltage. Also, the experiments on gain versus
+frequency showed the inverse relationship between the two, showing that gain decreases as frequency
+increases, which is consistent with the gain bandwidth product. The results from the Multisim
+simulations also validated the experimental findings.
