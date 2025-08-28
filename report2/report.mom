@@ -1,0 +1,119 @@
+.PRINTSTYLE TYPESET
+.PAPER A4
+.L_MARGIN 3.46c
+.R_MARGIN 3.46c
+.T_MARGIN 3.46c
+.B_MARGIN 3.46c
+.QUAD L
+.FAMILY CCH
+.PT_SIZE 12
+.AUTOLEAD 1.25 FACTOR
+.PARA_INDENT 0i
+.DOCHEADER OFF
+.HEADER OFF
+.HY OFF
+.TAB_SET 1 0i 0c R
+.TAB_SET 2 0i 14.08c R
+.TAB_SET 3 0c 7.04c L
+.TAB_SET 4 7.04c 7.04c L
+.HEADING_STYLE 1 SIZE +8 FONT R SMALLCAPS
+.HEADING_STYLE 2 SIZE +0
+.START
+.EQ
+delim $$
+.EN
+.LEFT
+.LS 12
+.TAB1
+.EW 0.8
+Evan Bonner\*[TB+]
+.EW
+\*[IT]\*S[-2]South East Technological University\*S[+2]\*[ROM]
+.TQ
+
+.PT_SIZE 10
+\*[IT]Measurement Systems\*[ROM] lab report
+August 2025
+.DRH
+.HEADING 1 "Active filters"
+.HEADING 2 "Aim"
+.PP
+To investigate the usage of active filters to remove noise from a signal.
+.HEADING 2 "Theory"
+.PP
+Signal filtering is a fundamental concept in electronics used to modify the frequency content of a
+signal. A filter is a circuit designed to allow certain frequencies to pass through while blocking
+others. Active filters, which use components like operational amplifiers, are often preferred over
+simple passive filters. This is because they can provide signal gain and achieve a steeper frequency
+roll-off, making them more effective at attenuating unwanted frequencies. A summing amplifier
+combines multiple input signals into a single output signal, and can be used to generate a noisy
+signal.
+
+.PP
+The performance of an active filter depends on it's order. A higher-order filter provides
+a sharper transition between the passband and stopband frequencies, leading to more effective
+filtering. For example, a first order filter has a roll off of -20 dB/decade, while a second order
+filter has a steeper roll off of -40 dB/decade. A band pass filter allows a specific range of
+frequencies to pass and attenuates frequencies outside of that range. The lower cutoff frequency and
+higher cutoff frequency of a bandpass filter determine the frequencies that are allowed to pass. The
+bandwidth is the difference between these two frequencies.
+.HEADING 2 "Method"
+.PP
+An AC voltage source was set to produce a sine wave signal with a peak to peak voltage of 3 V and
+a frequency of 5 kHz. A second source was set up to produce a noise signal. An inverting summing
+amplifier circuit was created to combine the clean signal with the noise signal, producing a noisy
+signal. An oscilloscope was attached to the circuit to measure the clean signal, the noise signal,
+and the combined signal.
+.PP
+A second order bandpass filter was then designed using the FilterLab website. The lower cutoff
+frequencies was set to 4500Hz and the higher cutoff frequency set to 5500Hz. The stopband lower
+frequency was set to 1000Hz and the stopband upper frequency was set to 10000Hz. The resulting 2nd
+order filter design from FilterLab was then implemented in Multisim. The filter order was then set
+to 4 in FilterLab to create a circuit diagram for the 4th order filter, which was also subsequently
+implemented in Multisim. A thermal noise component was used in Multisim to produce a white noise
+signal, with the noise ratio parameter set to 1000. Measurements were taken for the output voltage
+for the 2nd order filter and the 4th order filter. The clean signal, noise signal, combined signal,
+and both filtered signals were then graphed.
+.PDF_IMAGE -C circuit-diagram.pdf 1280p 896p SCALE 30
+.HEADING 2 "Data"
+.PDF_IMAGE -C graph-clean.pdf 576p 432p SCALE 60
+.PDF_IMAGE -C graph-noise.pdf 576p 432p SCALE 70
+.PDF_IMAGE -C graph-sum.pdf 576p 432p SCALE 70
+.PDF_IMAGE -C graph-2nd.pdf 576p 432p SCALE 70
+.PDF_IMAGE -C graph-2nd-zoomed.pdf 576p 432p SCALE 70
+.PDF_IMAGE -C graph-4th.pdf 576p 432p SCALE 70
+.PDF_IMAGE -C graph-4th-zoomed.pdf 576p 432p SCALE 70
+.PDF_IMAGE -C graph-clean-noisy.pdf 576p 432p SCALE 70
+.PDF_IMAGE -C graph-sum-2nd.pdf 576p 432p SCALE 70
+.PDF_IMAGE -C graph-sum-4th.pdf 576p 432p SCALE 70
+.PDF_IMAGE -C graph-2nd-4th.pdf 576p 432p SCALE 70
+.NEWPAGE
+.HEADING 2 "Discussion"
+.PP
+The results were as expected. The clean signal and the noise signal graphed as expected. The
+summing amplifier worked correctly in combining the clean and noise signal, as can be seen on the
+"Clean + noise" graph. The 2nd order filter at first appeared to have removed all noise, but a
+zoom in shows still perceptible noise in the original signal, although highly attenuated. The 4th
+order filter has a higher roll off and thus was able to reduce the noise to imperceptible levels.
+From the graphs, it can be seen that the 2nd order and 4th order filtered signals lag the original
+input signal. The 4th order filtered signal lags more than the 2nd order filtered signal. This is
+expected due to the capacitors in the filter circuits, which take time to charge and discharge. The
+4th order filter shows a greater lag due to using more capacitors. The 4th order filter also displays
+a small amount of attenuation of the desired original signal, as compared to the 2nd order filter
+which doesn't. This is likely attributable to the higher roll off of the 4th order filter compared
+to the 2nd order filter. This can be seen in the graphs comparing the filtered signals to their
+input signal. It shows the 2nd order signal having the same amplitude as the original input signal,
+while the 4th order signal shows a reduction of a few hundred millivolts. This also demonstrates the
+tradeoffs involved with higher order filters, with higher order filters having more lag and being
+more likely to attenuate desired frequencies. They also require more components as seen with the
+4th order filter requiring twice as many components in the circuit diagram as compared to the 2nd
+order filter.
+filter.
+.HEADING 2 "Conclusion"
+.PP
+The experiment demonstrated the operating characteristics of active bandpass filters. It showed
+the creation of a noisy signal with a summing amplifier, and the action of filters on the noisy
+signal. It demonstrated the differences between a 2nd order filter and 4th order filtering. The
+sharper roll off of the higher order filter led to the benefit of increased noise reduction along
+with the downside of partially attenuating the desired signal. It also demonstrated the time lag
+on the output signals of active filters due to the reactive components used to construct them.
